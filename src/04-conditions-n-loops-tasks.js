@@ -176,8 +176,9 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const distance = Math.sqrt((point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2);
+  return distance < circle.radius;
 }
 
 
@@ -301,9 +302,65 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  // const ccnReverse = `${ccn}`.split('').reverse().join('');
+  // let ccnArr = (`${ccnReverse}`);
+  // // const cnnString = `${ccn}`;
+  // const newCnnString = ccnReverse.slice(0, -1);
+
+
+  // let checkN = 0;
+  // if (ccnArr.length % 2 === 0) {
+  //   checkN = 0;
+  // } else {
+  //   checkN = (ccnReverse * 1) % 10;
+  //   ccnArr = newCnnString.split('');
+  // }
+
+  // const arrEve = [];
+  // const arrOdd = [];
+  // for (let i = 0; i < ccnArr.length; i += 2) {
+  //   arrEve.push(ccnArr[i]);
+  //   arrOdd.push(ccnArr[i + 1]);
+  // }
+  // // if (arrOdd[arrOdd.length - 1] === undefined) arrOdd.pop();
+
+  // const arrEveNew = [];
+  // const transArr = [];
+  // arrEve.forEach((item) => arrEveNew.push(item * 2));
+  // arrEveNew.forEach((item) => ((item > 9) ? transArr.push(item - 9) : transArr.push(item)));
+
+
+  // let result = 0;
+  // transArr.forEach((item) => { result += item * 1; });
+  // arrOdd.forEach((item) => { result += item * 1; });
+  // let answer;
+  // result = `${result}`;
+  // console.log((result[result.length - 1] * 1), checkN, result % checkN);
+  // if (result % checkN === 0) { answer = true; } else { answer = false; }
+  // // console.log(ccnReverse, checkN, arrEve, arrOdd, arrEveNew, transArr, result);
+
+
+  // return answer;
+
+  const newCcn = `${ccn}`;
+  const digits = newCcn.split('').map(Number);
+  let sum = 0;
+  let evenNumber = false;
+  for (let i = digits.length - 1; i >= 0; i -= 1) {
+    let digit = digits[i];
+    if (evenNumber) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+    sum += digit;
+    evenNumber = !evenNumber;
+  }
+  return sum % 10 === 0;
 }
+
 
 /**
  * Returns the digital root of integer:
@@ -443,8 +500,23 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m1Length = m1.length;
+  const a1Length = m1[0].length;
+  const a2Length = m2[0].length;
+  const rows = [...Array(a2Length)].map(() => 0);
+  const result = new Array(m1Length);
+  for (let p = 0; p < m1Length; p += 1) {
+    result[p] = rows.slice();
+  }
+  for (let i = 0; i < m1Length; i += 1) {
+    for (let j = 0; j < a2Length; j += 1) {
+      for (let k = 0; k < a1Length; k += 1) {
+        result[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+  return result;
 }
 
 
